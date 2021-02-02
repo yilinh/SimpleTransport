@@ -117,7 +117,7 @@ class Source(Agent):
         if self.model.schedule.steps % 5 == 0:
             self.generate_truck()
         else:
-            truck_generated_flag = False
+            self.truck_generated_flag = False
 
 
 # ---------------------------------------------------------------
@@ -170,6 +170,7 @@ class BangladeshModel(Model):
 
         self.schedule = BaseScheduler(self)
         self.running = True
+        self.path_ids = None
 
         df = pd.read_csv('./data/simpleTransport.csv')
 
@@ -184,19 +185,20 @@ class BangladeshModel(Model):
             'N8'
         ]
 
-        df_bridges_all = []
+        df_objects_all = []
         self.num_bridges = 0
 
         for road in roads:
-            df_bridges_on_road = df[df['road'] == road].sort_values(by=['km'])
+            df_objects_on_road = df[df['road'] == road].sort_values(by=['km'])
 
-            if not df_bridges_on_road.empty:
-                df_bridges_all.append(df_bridges_on_road)
-                self.num_bridges += len(df_bridges_on_road.index)
+            if not df_objects_on_road.empty:
+                df_objects_all.append(df_objects_on_road)
+                self.num_bridges += len(df_objects_on_road.index)
+                self.path_ids = df_objects_on_road['id']
 
-        # self.num_agents = len(df.index)
+                # self.num_agents = len(df.index)
 
-        df = pd.concat(df_bridges_all)
+        df = pd.concat(df_objects_all)
         y_min, y_max, x_min, x_max = set_lat_lon_bound(
             df['lat'].min(),
             df['lat'].max(),
@@ -210,24 +212,25 @@ class BangladeshModel(Model):
         # def __init__(self, unique_id, model, LRP_m, LRP_name, length,
         #              condition, name='Unknown', road_name='Unknown')
 
-        for df in df_bridges_all:
+
+
+        for df in df_objects_all:
             for index, row in df.iterrows():
 
                 model_type = row['model_type']
-
                 agent = None
 
                 if model_type == 'source':
-                    agent = Source(index, self, row['km'] * 1000, row['length'],
+                    agent = Source(row['id'], self, row['km'] * 1000, row['length'],
                                    row['name'], row['road'])
                 elif model_type == 'sink':
-                    agent = Sink(index, self, row['km'] * 1000, row['length'],
+                    agent = Sink(row['id'], self, row['km'] * 1000, row['length'],
                                  row['name'], row['road'])
                 elif model_type == 'bridge':
-                    agent = Bridge(index, self, row['km'] * 1000, row['length'],
+                    agent = Bridge(row['id'], self, row['km'] * 1000, row['length'],
                                    row['name'], row['road'])
                 elif model_type == 'link':
-                    agent = Link(index, self, row['km'] * 1000, row['length'] * 1000,
+                    agent = Link(row['id'], self, row['km'] * 1000, row['length'],
                                  row['name'], row['road'])
 
                 if agent:
