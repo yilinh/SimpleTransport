@@ -35,7 +35,10 @@ def agent_portrayal(agent):
     elif type(agent) is Link:
         portrayal["Color"] = "Tan"
         portrayal["r"] = max(agent.length / 1000, 1)
+    if type(agent) is Truck:
+        portrayal['Color'] = "Red"
 
+        
     # if agent.name in ['LRP008b', 'LRP012f']:
     #     portrayal["Text"] = agent.name
     #     portrayal["Text_color"] = "DarkGray"
