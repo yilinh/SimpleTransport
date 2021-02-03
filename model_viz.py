@@ -16,6 +16,8 @@ def agent_portrayal(agent):
                  "Filled": "true",
                  "Color": "dodgerblue",
                  "r": max(agent.length, 1)
+                 #"w": max(canvas_width / 20, 4)
+                 #"h": max(canvas_height/ 40, 4)
                  # "w": max(agent.population / 100000 * 4, 4),
                  # "h": max(agent.population / 100000 * 4, 4)
                  }
@@ -36,9 +38,13 @@ def agent_portrayal(agent):
         portrayal["Color"] = "Tan"
         portrayal["r"] = max(agent.length / 1000, 1)
     if type(agent) is Truck:
-        portrayal['Color'] = "Red"
+        portrayal["Color"] = "Red"
+        portrayal["Shape"] = "Rectangle"
+        portrayal["w"] = canvas_width / 20
+        portrayal["h"] = canvas_height / 40
 
-        
+
+
     # if agent.name in ['LRP008b', 'LRP012f']:
     #     portrayal["Text"] = agent.name
     #     portrayal["Text_color"] = "DarkGray"

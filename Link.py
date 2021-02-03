@@ -31,7 +31,7 @@ class Link(Agent):
     def step(self):
         try:
             self.toggle()
-            print(self.name + ' ' + str(self.length))
+            #print(self.name + ' ' + str(self.length))
         except Exception as e:
-            print("Oops!", e.__class__, "occurred.")
+            print("Oops!", e.__class__, "occurred in link.")
 
