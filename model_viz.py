@@ -1,11 +1,7 @@
 from mesa.visualization.ModularVisualization import ModularServer
-
 from SimpleContinuousModule import SimpleCanvas
 from model import BangladeshModel
-from model import Source
-from model import Sink
-from model import Link
-from model import Bridge
+from components import Source, Sink, Bridge, Link
 
 
 def agent_portrayal(agent):
