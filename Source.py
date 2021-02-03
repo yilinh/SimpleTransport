@@ -21,17 +21,32 @@ class Source(Agent):
         self.length = length  # in meters
         self.road_name = road_name
 
+        #get the next component in line:
+        
+
     def generate_truck(self):
         try:
 
-            agent = Truck('Truck' + str(self.truck_counter), self.model, self)
+            agent = Truck(self, 'Truck' + str(self.truck_counter), self.model, self.location, self.location_offset)
 
             if agent:
                 self.model.schedule.add(agent)
                 self.truck_counter += 1
                 self.truck_generated_flag = True
                 self.space.place_agent(agent, (x, y))
-                agent.pos = (x, y)
+                #agent.pos = (x, y)
+                
+                agent.location=self.location   # giving current location to location of source 
+                agent.location_offset= self.location_offset #giving a static location of origin so that 
+                                                            # we are able to track how far it is from start
+                
+
+                agent.go_to_next_flag = True   #if this is true for the truck, the next source will check
+                                                # for all the vehicles in source 1 which have go_to_next_flag = True 
+                                                # and increase its counter by that number 
+                                                # And the counter of trucks for Source 1 reduces by that number. 
+
+
 
         except Exception as e:
             print("Oops!", e.__class__, "occurred.")

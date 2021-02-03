@@ -9,14 +9,16 @@ import pandas as pd
 
 
 class Truck(Agent):
-    """A simple truck agent"""
-    truck_flag = False
+    """A simple bridge agent"""
+    #truck_flag = False
+    go_to_next_flag = False
 
-    def __init__(self, unique_id, model, lat, lon, location_offset=0):
+    def __init__(self, unique_id, model, location, location_offset=0, go_to_next_flag=False, next_location=0):
         super().__init__(unique_id, model)
-        self.lat = lat
-        self.lon = lon
+        self.location = location
+        self.next_location = next_location 
         self.location_offset = location_offset
-        self.pos = (self.lat,self.lon)
+        self.pos = location.pos
         self.name = ''
         self.length = 1
+        

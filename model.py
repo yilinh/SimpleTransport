@@ -102,5 +102,10 @@ class BangladeshModel(Model):
                     agent.pos = (x, y)
 
     def step(self):
-        """Advance the model by one step."""
+      """Advance the model by one step."""
+
+        # get the schedule of trucks:
+        for agents in self.schedule.agents:
+            if type(agent) == 'Source':
+
         self.schedule.step()
