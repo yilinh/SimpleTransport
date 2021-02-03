@@ -20,11 +20,6 @@ def agent_portrayal(agent):
                  # "h": max(agent.population / 100000 * 4, 4)
                  }
 
-    # if agent.truck_generated_flag:
-    #     portrayal["Color"] = "Green"
-    # else:
-    #     portrayal["Color"] = "LightPink"
-
     if type(agent) is Source:
         if agent.truck_generated_flag:
             portrayal["Color"] = "green"
@@ -35,9 +30,11 @@ def agent_portrayal(agent):
     elif type(agent) is Sink:
         portrayal["Color"] = "LightGray"
         portrayal["r"] = 2
+
     elif type(agent) is Link:
         portrayal["Color"] = "Tan"
         portrayal["r"] = max(agent.vehicle_count * 4, 2)
+
     elif type(agent) is Bridge:
         portrayal["Color"] = "dodgerblue"
         portrayal["r"] = max(agent.vehicle_count * 4, 2)
