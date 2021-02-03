@@ -1,4 +1,4 @@
-﻿road,model_type,km,lat,lon,length,name,id 
+road,model_type,km,lat,lon,length,name,id 
 N1,source,1,0,0,0,source,10000
 N1,link,2,1,1,2000,link 1,10001
 N1,bridge,3,2,2,5,bridge 1,10002
