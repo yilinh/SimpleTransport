@@ -25,7 +25,7 @@ class BangladeshModel(Model):
     step_time = 1  # 1 step is 1 min
 
     """local"""
-    infra_dict = {}
+    # infra_dict = {}
 
     def __init__(self, x_max=500, y_max=500, x_min=0, y_min=0):
 
@@ -50,7 +50,7 @@ class BangladeshModel(Model):
         self.num_bridges = 0
 
         for road in roads:
-            df_objects_on_road = df[df['road'] == road].sort_values(by=['km'])
+            df_objects_on_road = df[df['road'] == road].sort_values(by=['id'])
 
             if not df_objects_on_road.empty:
                 df_objects_all.append(df_objects_on_road)
@@ -87,7 +87,7 @@ class BangladeshModel(Model):
 
                 if agent:
                     self.schedule.add(agent)
-                    self.infra_dict[agent.unique_id] = agent
+                    # self.infra_dict[agent.unique_id] = agent
                     y = row['lat']
                     x = row['lon']
                     self.space.place_agent(agent, (x, y))
@@ -100,6 +100,6 @@ class BangladeshModel(Model):
 
 # ---------------------------------------------------------------
 # run model for 100 steps
-sim_model = BangladeshModel()
-for i in range(200):
-    sim_model.step()
+# sim_model = BangladeshModel()
+# for i in range(200):
+#     sim_model.step()

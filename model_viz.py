@@ -17,15 +17,18 @@ def agent_portrayal(agent):
                  }
 
     if type(agent) is Source:
-        if agent.truck_generated_flag:
+        if agent.vehicle_generated_flag:
             portrayal["Color"] = "green"
         else:
             portrayal["Color"] = "red"
         portrayal["r"] = 5
 
     elif type(agent) is Sink:
-        portrayal["Color"] = "LightGray"
-        portrayal["r"] = 2
+        if agent.vehicle_removed_toggle:
+            portrayal["Color"] = "LightSkyBlue"
+        else:
+            portrayal["Color"] = "LightPink"
+        portrayal["r"] = 5
 
     elif type(agent) is Link:
         portrayal["Color"] = "Tan"
@@ -45,7 +48,7 @@ space = SimpleCanvas(agent_portrayal, canvas_width, canvas_height)
 
 server = ModularServer(BangladeshModel,
                        [space],
-                       "Bangladesh N1 Model",
+                       "Simple Transport Model",
                        {})
 
 server.port = 8521  # The default
