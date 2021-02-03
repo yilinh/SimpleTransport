@@ -129,13 +129,15 @@ class BangladeshModel(Model):
 
 
     def step(self):
-        nx.draw(self.G,pos=self.pos, with_labels=True)
-        plt.show()
+        #nx.draw(self.G,pos=self.pos, with_labels=True)
+        #plt.show()
         self.shortest = nx.shortest_path(self.G, source='source', target='sink')
-        print(self.shortest)
-        print(self) 
+        #print(self.shortest)
+        #print(self) 
+        print ( "truck generated" + str(self.truck_counter))
+        print("trucks exited" + str(self.trucks_exited))
         self.schedule.step()
         
      
-samplemodel = BangladeshModel()
-samplemodel.step()
+#samplemodel = BangladeshModel()
+#samplemodel.step()

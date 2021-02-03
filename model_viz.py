@@ -36,12 +36,12 @@ def agent_portrayal(agent):
         portrayal["Color"] = "LightGray"
     elif type(agent) is Link:
         portrayal["Color"] = "Tan"
-        portrayal["r"] = max(agent.length / 1000, 1)
+        #portrayal["r"] = max(agent.length / 1000, 1)
     if type(agent) is Truck:
-        portrayal["Color"] = "Red"
-        portrayal["Shape"] = "Rectangle"
-        portrayal["w"] = canvas_width / 20
-        portrayal["h"] = canvas_height / 40
+        portrayal["Color"] = "dodgerblue"
+        #portrayal["Shape"] = "Rectangle"
+        #portrayal["w"] = canvas_width / 20
+        #portrayal["h"] = canvas_height / 40
 
 
 
