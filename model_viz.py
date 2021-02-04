@@ -16,25 +16,25 @@ def agent_portrayal(agent):
                  # "h": max(agent.population / 100000 * 4, 4)
                  }
 
-    if type(agent) is Source:
+    if isinstance(agent, Source):
         if agent.vehicle_generated_flag:
             portrayal["Color"] = "green"
         else:
             portrayal["Color"] = "red"
         portrayal["r"] = 5
 
-    elif type(agent) is Sink:
+    elif isinstance(agent, Sink):
         if agent.vehicle_removed_toggle:
             portrayal["Color"] = "LightSkyBlue"
         else:
             portrayal["Color"] = "LightPink"
         portrayal["r"] = 5
 
-    elif type(agent) is Link:
+    elif isinstance(agent, Link):
         portrayal["Color"] = "Tan"
         portrayal["r"] = max(agent.vehicle_count * 4, 2)
 
-    elif type(agent) is Bridge:
+    elif isinstance(agent, Bridge):
         portrayal["Color"] = "dodgerblue"
         portrayal["r"] = max(agent.vehicle_count * 4, 2)
 
