@@ -1,12 +1,12 @@
 ﻿road,id,model_type,name,lat,lon,length
-N1,10000,source,source,0,0,4
-N1,10001,link,link 1,1,1,1800
-N1,10002,bridge,bridge 1,2,2,5
-N1,10003,link,link 2,3,3,1500
-N1,10004,bridge,bridge 2,4,4,8
-N1,10005,link,link 3,5,5,2000
-N1,10006,bridge,bridge 3,6,6,4
-N1,10007,link,link 4,7,7,2500
-N1,10008,bridge,bridge 4,8,8,2
-N1,10009,link,link 5,9,9,800
-N1,10010,sink,sink,10,10,4
+N1,source10000,source,source,0,0,4
+N1,link10001,link,link 1,1,1,1800
+N1,bridge10002,bridge,bridge 1,2,2,200
+N1,link10003,link,link 2,3,3,1500
+N1,bridge10004,bridge,bridge 2,4,4,8
+N1,link10005,link,link 3,5,5,2000
+N1,bridge10006,bridge,bridge 3,6,6,4
+N1,link10007,link,link 4,7,7,2500
+N1,bridge10008,bridge,bridge 4,8,8,500
+N1,link10009,link,link 5,9,9,800
+N1,sink10010,sink,sink,10,10,20

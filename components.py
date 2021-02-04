@@ -1,5 +1,7 @@
 
 from mesa import Agent
+from enum import Enum
+import random
 
 
 # ---------------------------------------------------------------
@@ -24,6 +26,14 @@ class Infra(Agent):
 class Bridge(Infra):
     condition = 'Unknown'
 
+    def __init__(self, unique_id, model, length=0,
+                 name='Unknown', road_name='Unknown'):
+        super().__init__(unique_id, model, length, name, road_name)
+        self.delay_time = random.randint(0, 10)
+
+    def get_delay_time(self):
+        return self.delay_time
+
 
 # ---------------------------------------------------------------
 
@@ -41,7 +51,6 @@ class Sink(Infra):
     def remove(self, vehicle):
         # TODO: Collect vehicle data
         self.model.schedule.remove(vehicle)
-        self.vehicle_count += 1
         self.vehicle_removed_toggle = not self.vehicle_removed_toggle
         print("SINK " + str(self.unique_id) + ' REMOVE ' + str(vehicle.unique_id))
 
@@ -79,8 +88,13 @@ class Source(Infra):
 
 # ---------------------------------------------------------------
 class Vehicle(Agent):
+
     speed = 50 * 1000 / 60  # 50 km/h translated into meter per min
-    step_time = 1   # ONE tick represents ONE minute !
+    step_time = 1   # One tick represents *1* minute !
+
+    class State(Enum):
+        DRIVE = 1
+        WAIT = 2
 
     def __init__(self, unique_id, model, generated_by, location_offset=0):
         super().__init__(unique_id, model)
@@ -89,11 +103,40 @@ class Vehicle(Agent):
         self.location_index = 0
         self.location_offset = location_offset
         self.pos = generated_by.pos
-        self.name = ''
-        self.length = 1
+        # default values
+        self.state = Vehicle.State.DRIVE
+        self.waiting_time = 0
+        self.waited_at = None
+        # self.name = ''
+        # self.length = 1
 
     def step(self):
-        self.drive()
+
+        if self.state == Vehicle.State.WAIT:
+            self.waiting_time = max(self.waiting_time - 1, 0)
+            if self.waiting_time == 0:
+                self.waited_at = self.location
+                self.state = Vehicle.State.DRIVE
+
+        if self.state == Vehicle.State.DRIVE:
+            self.drive()
+
+        print(self.unique_id + " " + str(self.state) + '(' +
+              str(self.waiting_time) + ') ' + str(self.location.unique_id) + '(' +
+              str(self.location.vehicle_count) + ') ' + str(self.location_offset))
+
+    def drive(self):
+
+        distance = Vehicle.speed * Vehicle.step_time
+        distance_rest = self.location_offset + distance - self.location.length
+
+        if distance_rest > 0:
+            # go to the next object
+            self.drive_to_next(distance_rest)
+
+        else:
+            # remain on the same object
+            self.location_offset += distance
 
     def drive_to_next(self, distance):
 
@@ -106,8 +149,19 @@ class Vehicle(Agent):
             self.location.vehicle_count -= 1
             self.location = next_infra
             self.location_offset = 0
+            self.location.vehicle_count += 1
             self.location.remove(self)
             return
+        elif type(next_infra) is Bridge:
+            self.waiting_time = next_infra.get_delay_time()
+            if self.waiting_time > 0:
+                self.location.vehicle_count -= 1
+                self.location = next_infra
+                self.location_offset = 0
+                self.location.vehicle_count += 1
+                self.state = Vehicle.State.WAIT
+                return
+            # Otherwise, continue moving
 
         if next_infra.length > distance:
             # stay on this object:
@@ -119,19 +173,4 @@ class Vehicle(Agent):
             # move to next object:
             self.drive_to_next(distance - next_infra.length)
 
-    def drive(self):
-
-        distance = self.speed * self.step_time
-        distance_rest = self.location_offset + distance - self.location.length
-
-        if distance_rest > 0:
-            # go to the next object
-            self.drive_to_next(distance_rest)
-
-        else:
-            # remain on the same object
-            self.location_offset += distance
-
-        print(self.unique_id + " " + str(self.location.unique_id) + '(' +
-              str(self.location.vehicle_count) + ') ' + str(self.location_offset))
 

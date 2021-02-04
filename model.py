@@ -99,7 +99,9 @@ class BangladeshModel(Model):
 
 
 # ---------------------------------------------------------------
-# run model for 100 steps
-# sim_model = BangladeshModel()
-# for i in range(200):
-#     sim_model.step()
+# run time: 5 x 24 hours
+# run_length = 5 * 24 * 3600
+run_length = 100
+sim_model = BangladeshModel()
+for i in range(run_length):
+    sim_model.step()
