@@ -69,3 +69,4 @@ def model_structure(road):
     return df_road
     
 df_road = model_structure('N1')
+df_road.to_csv("./data/df_road.csv)
