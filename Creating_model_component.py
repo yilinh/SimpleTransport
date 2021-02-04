@@ -18,12 +18,12 @@ import networkx as nx
 import re
 
 def model_structure(road):
-    df= pd.read_csv('CandV_Bridges.csv')
+    df= pd.read_csv('./data/CandV_Bridges.csv')
     df_road = df.loc[df.road==road,:].sort_values('km')
     df_road = df_road[['km','length','condition','lat','lon']].reset_index().drop('index',axis=1)
     df_road['model_type'] = 'bridge'
     
-    df2 = pd.read_csv('_roads3.csv')
+    df2 = pd.read_csv('./data/_roads3.csv')
     df_start_end = df2.loc[df2.road==road,:]
     df_start_end = df_start_end.iloc[[0, -1]].reset_index().drop('index', axis=1)
     df_start_end = df_start_end.rename(columns={'chainage':'km'})
