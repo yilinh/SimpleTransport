@@ -1,11 +1,7 @@
 from mesa.visualization.ModularVisualization import ModularServer
-
 from SimpleContinuousModule import SimpleCanvas
 from model import BangladeshModel
-from model import Source
-from model import Sink
-from model import Link
-from model import Truck
+from components import Source, Sink, Bridge, Link
 
 
 def agent_portrayal(agent):
@@ -14,31 +10,33 @@ def agent_portrayal(agent):
                  # "Shape": "rect",
                  "Shape": "circle",
                  "Filled": "true",
-                 "Color": "dodgerblue",
-                 "r": max(agent.length, 1)
+                 "Color": "Khaki",
+                 "r": 2
                  # "w": max(agent.population / 100000 * 4, 4),
                  # "h": max(agent.population / 100000 * 4, 4)
                  }
 
-    # if type(agent) is Source:
-    #     pass
-    # elif agent.length > 50:
-    #     portrayal["Color"] = "red"
-
     if type(agent) is Source:
-        if agent.truck_generated_flag:
-            portrayal["Color"] = "HotPink"
+        if agent.vehicle_generated_flag:
+            portrayal["Color"] = "green"
+        else:
+            portrayal["Color"] = "red"
+        portrayal["r"] = 5
+
+    elif type(agent) is Sink:
+        if agent.vehicle_removed_toggle:
+            portrayal["Color"] = "LightSkyBlue"
         else:
             portrayal["Color"] = "LightPink"
-    elif type(agent) is Sink:
-        portrayal["Color"] = "LightGray"
+        portrayal["r"] = 5
+
     elif type(agent) is Link:
         portrayal["Color"] = "Tan"
-        portrayal["r"] = max(agent.length / 1000, 1)
+        portrayal["r"] = max(agent.vehicle_count * 4, 2)
 
-    # if agent.name in ['LRP008b', 'LRP012f']:
-    #     portrayal["Text"] = agent.name
-    #     portrayal["Text_color"] = "DarkGray"
+    elif type(agent) is Bridge:
+        portrayal["Color"] = "dodgerblue"
+        portrayal["r"] = max(agent.vehicle_count * 4, 2)
 
     return portrayal
 
@@ -50,7 +48,7 @@ space = SimpleCanvas(agent_portrayal, canvas_width, canvas_height)
 
 server = ModularServer(BangladeshModel,
                        [space],
-                       "Bangladesh N1 Model",
+                       "Simple Transport Model",
                        {})
 
 server.port = 8521  # The default
