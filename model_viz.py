@@ -1,7 +1,7 @@
 from mesa.visualization.ModularVisualization import ModularServer
 from SimpleContinuousModule import SimpleCanvas
 from model import BangladeshModel
-from components import Source, Sink, Bridge, Link
+from components import Infra, Source, Sink, Bridge, Link
 
 
 def agent_portrayal(agent):
@@ -38,11 +38,15 @@ def agent_portrayal(agent):
         portrayal["Color"] = "dodgerblue"
         portrayal["r"] = max(agent.vehicle_count * 4, 2)
 
+    if isinstance(agent, Infra) and agent.name in ['Dhaka', 'Chittagong', "Cox's Bazar", 'Teknaf']:
+        portrayal["Text"] = agent.name
+        portrayal["Text_color"] = "DarkSlateGray"
+
     return portrayal
 
 
-canvas_width = 500
-canvas_height = 500
+canvas_width = 400
+canvas_height = 400
 
 space = SimpleCanvas(agent_portrayal, canvas_width, canvas_height)
 
@@ -51,5 +55,5 @@ server = ModularServer(BangladeshModel,
                        "Simple Transport Model",
                        {})
 
-server.port = 8521  # The default
+server.port = 8521  # The default port
 server.launch()

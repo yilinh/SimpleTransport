@@ -37,8 +37,9 @@ class BangladeshModel(Model):
         self.generate_model()
 
     def generate_model(self):
+        df = pd.read_csv('./data/simpleTransport.csv')
         # df = pd.read_csv('./data/simpleTransport_Bi.csv')
-        df = pd.read_csv('./data/df_road_Bi.csv')
+        # df = pd.read_csv('./data/df_road_Bi.csv')
         roads = [
             'N1',
             'N2',
@@ -114,10 +115,3 @@ class BangladeshModel(Model):
         self.schedule.step()
 
 
-# ---------------------------------------------------------------
-# run time: 5 x 24 hours
-# run_length = 5 * 24 * 3600
-run_length = 100
-sim_model = BangladeshModel()
-for i in range(run_length):
-    sim_model.step()
